@@ -1,0 +1,7 @@
+Coloque aqui as fotos da Karina:
+
+  karina-principal.jpg  -> topo da pagina
+  karina-sobre.jpg      -> secao "Sobre mim"
+
+Aceita .jpg, .jpeg, .png ou .webp. Fotos verticais (4:5) ficam melhores.
+O site troca a ilustracao pela foto sozinho.
