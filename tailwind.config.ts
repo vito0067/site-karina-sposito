@@ -29,12 +29,12 @@ const config: Config = {
         bronze: {
           claro: "#C9AE8A",
           DEFAULT: "#A88660",
-          escuro: "#82633F",
+          escuro: "#6F5434",
         },
         tinta: {
           DEFAULT: "#3A3A2C",
           suave: "#625C4D",
-          leve: "#8A8373",
+          leve: "#6A6555",
         },
       },
       fontFamily: {

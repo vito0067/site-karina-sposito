@@ -57,11 +57,15 @@ export default function Ramo({
   cor = "#66704F",
   espessura = 1.1,
   atraso = 0,
+  corFolha,
 }: {
   className?: string;
   cor?: string;
   espessura?: number;
   atraso?: number;
+  // Com cor de folha, as folhas ganham preenchimento depois que o traço
+  // termina de desenhar — o ramo fica bem mais visível sobre fundos claros.
+  corFolha?: string;
 }) {
   return (
     <Revelar desenhar atraso={atraso} className={`pointer-events-none ${className}`}>
@@ -69,7 +73,13 @@ export default function Ramo({
         <g fill="none" stroke={cor} strokeWidth={espessura} strokeLinecap="round" strokeLinejoin="round">
           <path d={caule} style={{ ["--comprimento" as string]: 520 }} />
           {folhas.map((d, i) => (
-            <path key={i} d={d} style={{ ["--comprimento" as string]: 160, animationDelay: `${atraso + 500 + i * 110}ms` }} />
+            <path
+              key={i}
+              d={d}
+              fill={corFolha}
+              className={corFolha ? "folha-cheia" : undefined}
+              style={{ ["--comprimento" as string]: 160, animationDelay: `${atraso + 500 + i * 110}ms` }}
+            />
           ))}
           {azeitonas.map(([x, y], i) => (
             <circle key={i} cx={n(x)} cy={n(y)} r="5.5" style={{ ["--comprimento" as string]: 40, animationDelay: `${atraso + 1500 + i * 200}ms` }} />

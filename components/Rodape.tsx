@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Logo } from "./Logo";
+import { Logo } from "./LogoHorizontal";
 import { IconeWhatsapp, IconeInstagram, IconeEmail } from "./Icones";
 import { linkWhatsapp, linkInstagram, linkEmail, site } from "@/lib/site";
 
@@ -63,7 +63,7 @@ export default function Rodape() {
           mais próximo.
         </div>
 
-        <div className="mt-10 flex flex-col gap-4 border-t border-linho/10 pt-8 text-[0.82rem] text-linho/50 md:flex-row md:items-center md:justify-between">
+        <div className="mt-10 flex flex-col gap-4 border-t border-linho/10 pt-8 text-[0.82rem] text-linho/70 md:flex-row md:items-center md:justify-between">
           <p>
             © {ano} {site.nome} · {site.formacaoCurta} · {site.registro}
           </p>

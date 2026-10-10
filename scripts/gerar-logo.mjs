@@ -91,7 +91,8 @@ const arco = "M44 330V156A106 106 0 0 1 256 156V222";
 const arcoFim = "M256 276V330";
 const galho = ramo({ p0: [206, 284], p1: [240, 274], p2: [266, 250], p3: [290, 196], folhas: 7, tamanho: 31, largura: 8.6 });
 
-function monograma({ k, s, linha, folha: corFolha, caule, id = "m", traco = 1.6 }) {
+function monograma({ k, s, linha, folha: corFolha, caule, id = "m", traco = 1.6, fixo = false }) {
+  const ve = fixo ? ` vector-effect="non-scaling-stroke"` : "";
   return `
   <defs>
     <mask id="${id}-recorte" maskUnits="userSpaceOnUse" x="0" y="0" width="300" height="360">
@@ -99,11 +100,11 @@ function monograma({ k, s, linha, folha: corFolha, caule, id = "m", traco = 1.6 
       <path d="${sD}" fill="#000" stroke="#000" stroke-width="7" stroke-linejoin="round"/>
     </mask>
   </defs>
-  <path d="${arco}" fill="none" stroke="${linha}" stroke-width="${traco}" stroke-linecap="round"/>
-  <path d="${arcoFim}" fill="none" stroke="${linha}" stroke-width="${traco}" stroke-linecap="round"/>
+  <path d="${arco}" fill="none" stroke="${linha}" stroke-width="${traco}" stroke-linecap="round"${ve}/>
+  <path d="${arcoFim}" fill="none" stroke="${linha}" stroke-width="${traco}" stroke-linecap="round"${ve}/>
   <path d="${kD}" fill="${k}" mask="url(#${id}-recorte)"/>
   <path d="${sD}" fill="${s}"/>
-  <path d="${galho.caule}" fill="none" stroke="${caule}" stroke-width="${traco * 1.1}" stroke-linecap="round"/>
+  <path d="${galho.caule}" fill="none" stroke="${caule}" stroke-width="${fixo ? traco : traco * 1.1}" stroke-linecap="round"${ve}/>
   <path d="${galho.folhas}" fill="${corFolha}"/>`;
 }
 
@@ -203,6 +204,25 @@ for (const [arquivo, conteudo] of saidas) {
   await img.png().toFile(`public/marca/${arquivo}.png`);
 }
 
+// Logo do menu e do rodapé do site: arquivo de imagem (o navegador guarda em
+// cache) em vez de desenho embutido em cada página — deixa o site mais leve.
+// Os traços finos usam espessura fixa de tela, para não sumirem em tamanho pequeno.
+const CORES_SITE = {
+  cor: { ...PALETAS.cor, assin: "#6F5434" },
+  claro: PALETAS.claro,
+};
+const larguraLogoSite = Math.ceil(116 + Math.max(nome.largura * 0.62, assinatura.largura * 0.86) + 4);
+for (const [variante, p] of Object.entries(CORES_SITE)) {
+  const conteudo = `
+  <svg x="0" y="0" width="100" height="120" viewBox="0 0 300 360">${monograma({ ...p, id: `site-${variante}`, traco: 1.2, fixo: true })}</svg>
+  <path transform="translate(116 66) scale(0.62)" d="${nome.d}" fill="${p.nome}"/>
+  <path transform="translate(117 93) scale(0.86)" d="${assinatura.d}" fill="${p.assin}"/>`;
+  fs.writeFileSync(`public/marca/logo-site-${variante}.svg`, svg(`0 0 ${larguraLogoSite} 120`, conteudo));
+}
+fs.writeFileSync("lib/logo-site.ts", `// Gerado por scripts/gerar-logo.mjs — proporção do logo do site.
+export const LOGO_SITE = { largura: ${larguraLogoSite}, altura: 120 };
+`);
+
 const icone = arquivoIcone();
 fs.writeFileSync("app/icon.svg", icone);
 await sharp(Buffer.from(icone), { density: 300 }).resize(180, 180).png().toFile("app/apple-icon.png");
@@ -223,7 +243,23 @@ const newsreaderItalico = fonte("newsreader/files/newsreader-latin-300-italic.wo
 const linha = (f, texto, tamanho) => ({ d: paraD(f.getPath(texto, 0, 0, tamanho)), largura: f.getAdvanceWidth(texto, tamanho) });
 const t1 = linha(newsreader, "Um lugar seguro para", 66);
 const t2 = linha(newsreaderItalico, "cuidar do que você sente.", 66);
-const rodapeOg = textoEspacado(jost, "ATENDIMENTO ONLINE · ADOLESCENTES, ADULTOS E CASAIS", 16, 4.4);
+const rodapeOg = textoEspacado(jost, "ATENDIMENTO ONLINE · ADOLESCENTES, ADULTOS E CASAIS", 14, 3.4);
+
+// Se a foto da Karina existir, ela entra dentro do arco; senão, fica o amanhecer.
+const arquivoFoto = ["webp", "jpg", "jpeg", "png"].map((e) => `public/fotos/karina-sobre.${e}`).find((f) => fs.existsSync(f));
+const fotoOg = arquivoFoto
+  ? (await sharp(arquivoFoto).resize({ width: 680, height: 1080, fit: "cover", position: "top" }).jpeg({ quality: 88 }).toBuffer()).toString("base64")
+  : null;
+const dentroDoArco = fotoOg
+  ? `<image x="790" y="90" width="340" height="540" preserveAspectRatio="xMidYMid slice" href="data:image/jpeg;base64,${fotoOg}"/>`
+  : `<rect x="780" y="80" width="360" height="560" fill="url(#og-ceu)"/>
+    <circle cx="960" cy="420" r="120" fill="none" stroke="#C9AE8A" stroke-opacity="0.35"/>
+    <circle cx="960" cy="420" r="92" fill="none" stroke="#C9AE8A" stroke-opacity="0.45"/>
+    <circle cx="960" cy="420" r="66" fill="url(#og-sol)"/>
+    <path d="M780 470C840 440 900 446 960 462S1080 484 1140 452V640H780Z" fill="#D9DFCB"/>
+    <path d="M780 506C850 480 920 490 980 506S1090 526 1140 498V640H780Z" fill="#C2CBAF"/>
+    <path d="M780 546C870 520 950 540 1020 556S1100 562 1140 546V640H780Z" fill="#A5B18F"/>
+    <path d="M780 586C880 568 1000 596 1140 578V640H780Z" fill="#87946F"/>`;
 
 const og = svg(
   "0 0 1200 630",
@@ -241,14 +277,7 @@ const og = svg(
   </defs>
   <rect width="1200" height="630" fill="url(#og-fundo)"/>
   <g clip-path="url(#og-arco)">
-    <rect x="780" y="80" width="360" height="560" fill="url(#og-ceu)"/>
-    <circle cx="960" cy="420" r="120" fill="none" stroke="#C9AE8A" stroke-opacity="0.35"/>
-    <circle cx="960" cy="420" r="92" fill="none" stroke="#C9AE8A" stroke-opacity="0.45"/>
-    <circle cx="960" cy="420" r="66" fill="url(#og-sol)"/>
-    <path d="M780 470C840 440 900 446 960 462S1080 484 1140 452V640H780Z" fill="#D9DFCB"/>
-    <path d="M780 506C850 480 920 490 980 506S1090 526 1140 498V640H780Z" fill="#C2CBAF"/>
-    <path d="M780 546C870 520 950 540 1020 556S1100 562 1140 546V640H780Z" fill="#A5B18F"/>
-    <path d="M780 586C880 568 1000 596 1140 578V640H780Z" fill="#87946F"/>
+    ${dentroDoArco}
   </g>
   <path d="M791 630V260A169 169 0 0 1 1129 260V630" fill="none" stroke="${CORES.bronze}" stroke-opacity="0.6" stroke-width="1.4"/>
   <g transform="translate(86 70) scale(0.42)">${monograma({ ...PALETAS.cor, id: "og", traco: 3.4 })}</g>

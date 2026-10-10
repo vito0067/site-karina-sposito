@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { Logo } from "./Logo";
+import { Logo } from "./LogoHorizontal";
 import { IconeWhatsapp } from "./Icones";
 import { linkWhatsapp } from "@/lib/site";
 

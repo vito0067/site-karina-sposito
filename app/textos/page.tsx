@@ -20,7 +20,7 @@ export default function PaginaTextos() {
       <div aria-hidden="true" className="pointer-events-none absolute -left-40 top-40 h-[30rem] w-[30rem] rounded-full bg-nude/70 blur-[110px]" />
 
       <div className="container-site relative">
-        <Revelar className="max-w-[46rem]">
+        <div className="surgir max-w-[46rem]">
           <p className="sobretitulo">Textos</p>
           <h1 className="mt-6 font-display text-display-xl font-normal text-tinta">
             Palavras para <em className="font-light italic text-oliva">acompanhar você.</em>
@@ -29,7 +29,7 @@ export default function PaginaTextos() {
             Reflexões sobre as dores e as descobertas que chegam ao consultório. Para ler com calma, no seu
             tempo — e, quem sabe, reconhecer um pouco da sua história.
           </p>
-        </Revelar>
+        </div>
 
         <div className="mt-20 grid gap-x-6 gap-y-14 md:grid-cols-2 lg:grid-cols-3">
           {textos.map((t, i) => (

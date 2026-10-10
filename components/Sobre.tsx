@@ -14,7 +14,7 @@ const FORMACAO = [
 // Enquanto a foto não chega: um "retrato" com o monograma, no mesmo arco.
 function RetratoProvisorio() {
   return (
-    <div className="relative aspect-[4/5] overflow-hidden rounded-t-[999px] bg-gradient-to-b from-nude via-areia to-salvia-100 shadow-flutuante">
+    <div className="relative z-10 aspect-[4/5] overflow-hidden rounded-t-[999px] bg-gradient-to-b from-nude via-areia to-salvia-100 shadow-flutuante">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_38%,rgba(255,250,244,0.95),transparent_58%)]" />
       <div className="absolute inset-x-0 top-[22%] flex flex-col items-center">
         <Monograma className="h-44 w-auto sm:h-52" titulo="Monograma Karina Sposito" />
@@ -38,19 +38,28 @@ export default function Sobre() {
       <div aria-hidden="true" className="pointer-events-none absolute -right-40 top-10 h-[30rem] w-[30rem] rounded-full bg-linho blur-[100px]" />
 
       <div className="container-site relative grid items-start gap-16 lg:grid-cols-[0.85fr_1.15fr] lg:gap-24">
-        <Revelar className="relative mx-auto w-full max-w-[26rem] lg:sticky lg:top-28">
+        {/* No celular a foto fica um pouco mais estreita e encostada à esquerda,
+            para sobrar espaço à direita para o ramo. */}
+        <Revelar className="relative mr-auto w-[78%] max-w-[26rem] sm:mx-auto sm:w-full lg:sticky lg:top-28 lg:ml-0">
+          {/* O ramo nasce atrás da foto e sai pela lateral direita do arco,
+              sem passar pelo rosto. */}
+          <Ramo
+            className="absolute -right-20 bottom-[16%] h-72 w-40 sm:-right-28 sm:bottom-[12%] sm:h-[25rem] sm:w-56"
+            espessura={1.3}
+            corFolha="#B3BEA0"
+            atraso={500}
+          />
           {fotoSobre ? (
-            <div className="relative aspect-[4/5] overflow-hidden rounded-t-[999px] shadow-flutuante">
+            <div className="relative z-10 aspect-[4/5] overflow-hidden rounded-t-[999px] shadow-flutuante">
               <Image src={fotoSobre} alt="Karina Sposito" fill sizes="(min-width: 1024px) 26rem, 90vw" className="object-cover object-[50%_28%]" />
             </div>
           ) : (
             <RetratoProvisorio />
           )}
-          <Ramo className="absolute -right-10 -top-6 h-56 w-36 rotate-[24deg] sm:-right-14" cor="#82633F" atraso={300} />
 
-          <div className="absolute -bottom-8 -left-2 rounded-2xl border border-white/70 bg-linho/95 px-6 py-5 shadow-suave sm:-left-8">
-            <p className="font-display text-[2.6rem] leading-none text-oliva">20+</p>
-            <p className="mt-1 text-[0.82rem] leading-snug text-tinta-suave">
+          <div className="absolute -bottom-6 -left-2 z-20 rounded-2xl border border-white/70 bg-linho/95 px-4 py-3 shadow-suave sm:-bottom-8 sm:-left-8 sm:px-6 sm:py-5">
+            <p className="font-display text-[2rem] leading-none text-oliva sm:text-[2.6rem]">20+</p>
+            <p className="mt-1 text-[0.74rem] leading-snug text-tinta-suave sm:text-[0.82rem]">
               anos desde a formação
               <br />
               em Psicologia

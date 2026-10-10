@@ -10,14 +10,12 @@ export const site = {
   // enganoso. Se ela confirmar que quer (ou que tem doutorado), é só trocar.
   nome: "Karina Sposito",
 
-  // Ela preencheu o campo de CRP com "CBO 2515-50", que é o código de
-  // ocupação de psicanalista, e o Instagram dela diz "Bacharel em Psicologia,
-  // Pós-graduação em Psicanálise Clínica". Por isso o site a apresenta como
-  // psicanalista. Se ela tiver CRP ativo, troque aqui e preencha `crp`.
+  // Confirmado em 10/10/2026: ela é psicanalista, sem CRP. Por isso o site
+  // nunca usa a palavra "psicóloga" — sem CRP, isso seria exercício ilegal
+  // da profissão.
   profissao: "Psicanalista Clínica",
   formacaoCurta: "Bacharel em Psicologia · Pós-graduação em Psicanálise Clínica",
   registro: "CBO 2515-50",
-  crp: "",
 
   // Confirmado pela Karina em 10/10/2026: 11 96364-0004.
   whatsapp: "5511963640004",
@@ -28,14 +26,27 @@ export const site = {
   email: "kasitto@hotmail.com",
   instagram: "karina.psicanalise",
 
-  // Domínio ainda não definido — trocar quando for registrado.
-  url: "https://karinasposito.com.br",
+  // Endereço do site, usado pelo Google e pela imagem de compartilhamento.
+  // Não precisa mexer: na Vercel ele vira sozinho o domínio do projeto
+  // (o .vercel.app agora, o karinasposito.com.br quando for conectado).
+  url: enderecoDoSite(),
+
+  // Código de verificação do Google Search Console (passo a passo no README).
+  // Cole só o código, entre as aspas. Ex.: "AbC123xYz..."
+  googleVerificacao: "",
 
   atendimento: "Online",
   horarios: "A combinar, conforme a sua rotina",
   convenios: "Atendimento particular (não atendo por convênio)",
   publico: ["Adolescentes", "Adultos", "Casais"],
 };
+
+function enderecoDoSite() {
+  if (process.env.NEXT_PUBLIC_SITE_URL) return process.env.NEXT_PUBLIC_SITE_URL;
+  // Variável que a própria Vercel preenche com o domínio principal do projeto.
+  if (process.env.VERCEL_PROJECT_PRODUCTION_URL) return `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`;
+  return "http://localhost:3100";
+}
 
 export function linkWhatsapp(mensagem: string = site.mensagemWhatsapp) {
   return `https://wa.me/${site.whatsapp}?text=${encodeURIComponent(mensagem)}`;

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
+import type { CSSProperties } from "react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import Revelar from "@/components/Revelar";
 import CapaTexto from "@/components/CapaTexto";
 import ProgressoLeitura from "@/components/ProgressoLeitura";
 import { Monograma } from "@/components/Logo";
@@ -53,7 +53,10 @@ export default async function PaginaTexto({ params }: Props) {
     description: texto.resumo,
     datePublished: texto.data,
     inLanguage: "pt-BR",
-    author: { "@type": "Person", name: site.nome, jobTitle: site.profissao },
+    image: `${site.url}/opengraph-image.png`,
+    mainEntityOfPage: `${site.url}/textos/${texto.slug}`,
+    author: { "@type": "Person", name: site.nome, jobTitle: site.profissao, url: site.url },
+    publisher: { "@type": "Organization", name: site.nome, logo: { "@type": "ImageObject", url: `${site.url}/marca/monograma-cor.png` } },
   };
 
   return (
@@ -66,7 +69,7 @@ export default async function PaginaTexto({ params }: Props) {
       <article id="artigo" className="relative">
         <header className="container-site">
           <div className="mx-auto max-w-[50rem] text-center">
-            <Revelar>
+            <div className="surgir">
               <nav aria-label="Você está em" className="flex items-center justify-center gap-2 text-[0.82rem] text-tinta-leve">
                 <Link href="/textos" className="transition-colors hover:text-oliva">
                   Textos
@@ -85,14 +88,14 @@ export default async function PaginaTexto({ params }: Props) {
                   {dataPorExtenso(texto.data)} · {texto.leitura} min de leitura
                 </span>
               </div>
-            </Revelar>
+            </div>
           </div>
 
-          <Revelar atraso={150} className="mx-auto mt-14 max-w-[64rem]">
+          <div className="surgir mx-auto mt-14 max-w-[64rem]" style={{ "--atraso": "150ms" } as CSSProperties}>
             <div className="overflow-hidden rounded-[2rem]">
               <CapaTexto indice={indice} categoria={texto.categoria} className="aspect-[16/7]" />
             </div>
-          </Revelar>
+          </div>
         </header>
 
         <div className="container-site">

@@ -4,6 +4,7 @@ import Navbar from "@/components/Navbar";
 import Rodape from "@/components/Rodape";
 import BotaoWhatsApp from "@/components/BotaoWhatsApp";
 import RolagemSuave from "@/components/RolagemSuave";
+import { Analytics } from "@vercel/analytics/next";
 import { site, linkInstagram } from "@/lib/site";
 import "./globals.css";
 
@@ -11,10 +12,12 @@ import "./globals.css";
 // circunflexo dela é alto e fino e fica "flutuando" em "você" — em um site
 // em português, isso aparece em toda frase. A Newsreader tem o mesmo ar
 // clássico e acentos corretos.
+// Pesos fixos (300 e 400) em vez da versão variável: visual praticamente
+// igual e arquivos ~6x menores (46 KB contra 273 KB) — abre mais rápido no 4G.
 const display = Newsreader({
   subsets: ["latin"],
+  weight: ["300", "400"],
   style: ["normal", "italic"],
-  axes: ["opsz"],
   variable: "--font-display",
 });
 
@@ -51,9 +54,12 @@ export const metadata: Metadata = {
     locale: "pt_BR",
     type: "website",
     siteName: site.nome,
+    url: "/",
   },
   twitter: { card: "summary_large_image", title: titulo, description: descricao },
   alternates: { canonical: "/" },
+  // Preenchido em lib/site.ts quando o Google Search Console pedir.
+  verification: site.googleVerificacao ? { google: site.googleVerificacao } : undefined,
 };
 
 export const viewport: Viewport = {
@@ -68,12 +74,16 @@ const dadosEstruturados = {
   url: site.url,
   email: site.email,
   telephone: `+${site.whatsapp}`,
+  image: `${site.url}/opengraph-image.png`,
+  logo: `${site.url}/marca/monograma-cor.png`,
   areaServed: "BR",
   availableLanguage: "pt-BR",
   sameAs: [linkInstagram],
+  knowsAbout: ["Psicanálise", "Ansiedade", "Luto", "Traumas", "Relacionamentos", "Ansiedade de separação", "Terapia de casal"],
   founder: {
     "@type": "Person",
     name: site.nome,
+    image: `${site.url}/fotos/karina-sobre.webp`,
     jobTitle: site.profissao,
     alumniOf: "Universidade Paulista (UNIP)",
   },
@@ -85,7 +95,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       <head>
         {/* Sem JavaScript, nada fica escondido esperando a animação. */}
         <noscript>
-          <style>{`.revelar,.surgir{opacity:1!important;transform:none!important;filter:none!important}.palavra>span{transform:none!important}.desenhar path,.desenhar circle{stroke-dashoffset:0!important}`}</style>
+          <style>{`.revelar,.surgir{opacity:1!important;transform:none!important;filter:none!important}.palavra>span{transform:none!important}.desenhar path,.desenhar circle{stroke-dashoffset:0!important}.desenhar .folha-cheia{fill-opacity:.7!important}`}</style>
         </noscript>
       </head>
       <body className="grao">
@@ -98,6 +108,8 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <div id="conteudo">{children}</div>
         <Rodape />
         <BotaoWhatsApp />
+        {/* Estatística de visitas, sem cookies. Ligar em Vercel → projeto → Analytics. */}
+        <Analytics />
       </body>
     </html>
   );

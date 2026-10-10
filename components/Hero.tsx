@@ -20,7 +20,7 @@ function TituloAnimado() {
       {TITULO.map((trecho, l) => (
         <span key={l} className={trecho.em ? "font-light italic text-oliva" : undefined}>
           {trecho.t.split(" ").map((palavra, p) => {
-            const atraso = 180 + i++ * 85;
+            const atraso = 120 + i++ * 60;
             return (
               <span key={p} className="palavra">
                 <span style={{ "--atraso": `${atraso}ms` } as CSSProperties}>{palavra}</span>
@@ -58,14 +58,14 @@ export default function Hero() {
 
           <p
             className="surgir mt-8 max-w-[34rem] text-[1.12rem] leading-[1.75] text-tinta-suave"
-            style={{ "--atraso": "900ms" } as CSSProperties}
+            style={{ "--atraso": "300ms" } as CSSProperties}
           >
             Sou {site.nome}, psicanalista. Ofereço uma escuta sensível e sem julgamentos para
             adolescentes, adultos e casais que atravessam a ansiedade, o luto, os traumas e as dores
             dos relacionamentos.
           </p>
 
-          <div className="surgir mt-10 flex flex-col gap-3 sm:flex-row sm:items-center" style={{ "--atraso": "1050ms" } as CSSProperties}>
+          <div className="surgir mt-10 flex flex-col gap-3 sm:flex-row sm:items-center" style={{ "--atraso": "450ms" } as CSSProperties}>
             <a href={linkWhatsapp()} target="_blank" rel="noopener" className="botao-principal">
               <IconeWhatsapp className="h-5 w-5" />
               Agendar uma conversa
@@ -78,7 +78,7 @@ export default function Hero() {
 
           <ul
             className="surgir mt-12 flex flex-wrap gap-x-7 gap-y-3 text-[0.86rem] text-tinta-suave"
-            style={{ "--atraso": "1250ms" } as CSSProperties}
+            style={{ "--atraso": "600ms" } as CSSProperties}
           >
             {["100% online", "Horários flexíveis", "Sigilo e ética"].map((item) => (
               <li key={item} className="flex items-center gap-2.5">
@@ -90,7 +90,7 @@ export default function Hero() {
         </div>
 
         {/* Lado direito: arco com o amanhecer (ou a foto, quando chegar) */}
-        <div className="surgir relative mx-auto w-full max-w-[25rem] lg:mr-0 lg:max-w-[28rem]" style={{ "--atraso": "350ms" } as CSSProperties}>
+        <div className="surgir relative mx-auto w-full max-w-[25rem] lg:mr-0 lg:max-w-[28rem]" style={{ "--atraso": "200ms" } as CSSProperties}>
           <div className="relative">
             {fotoPrincipal ? (
               <div className="relative aspect-[4/5] overflow-hidden rounded-t-[999px] shadow-flutuante">

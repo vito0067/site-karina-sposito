@@ -35,6 +35,10 @@ export default function Privacidade() {
               das visitas (como o endereço de IP e o tipo de navegador), usadas apenas para manter o site
               funcionando com segurança.
             </p>
+            <p>
+              O site também conta quantas visitas recebe e quais páginas são mais lidas, de forma
+              anônima e sem cookies: não é possível saber quem visitou, apenas os números gerais.
+            </p>
 
             <h2>Quando você me chama no WhatsApp</h2>
             <p>

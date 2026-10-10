@@ -59,16 +59,5 @@ export function Monograma({
   );
 }
 
-// Logo horizontal: monograma + "KARINA SPOSITO" + "PSICANÁLISE CLÍNICA".
-export function Logo({ variante = "cor", className }: { variante?: Variante; className?: string }) {
-  const c = CORES[variante];
-  const larguraTexto = Math.max(marca.nomeLargura * 0.62, marca.assinaturaLargura * 0.86);
-  const largura = Math.ceil(116 + larguraTexto + 4);
-  return (
-    <svg viewBox={`0 0 ${largura} 120`} className={className} role="img" aria-label="Karina Sposito — Psicanálise Clínica">
-      <Monograma variante={variante} width={100} height={120} />
-      <path transform="translate(116 66) scale(0.62)" d={marca.nome} fill={c.nome} />
-      <path transform="translate(117 93) scale(0.86)" d={marca.assinatura} fill={c.assin} />
-    </svg>
-  );
-}
+// O logo horizontal mora em LogoHorizontal.tsx (arquivo de imagem, mais leve).
+export { Logo } from "./LogoHorizontal";
