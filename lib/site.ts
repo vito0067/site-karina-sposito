@@ -19,11 +19,9 @@ export const site = {
   registro: "CBO 2515-50",
   crp: "",
 
-  // ATENÇÃO: o formulário tinha máscara de telefone americana (10 dígitos)
-  // e o número chegou como "(196) 364-0004". O mais provável é
-  // (19) 96364-0004 — CONFIRMAR COM A KARINA ANTES DE PUBLICAR.
-  whatsapp: "5519963640004",
-  whatsappExibicao: "(19) 96364-0004",
+  // Confirmado pela Karina em 10/10/2026: 11 96364-0004.
+  whatsapp: "5511963640004",
+  whatsappExibicao: "(11) 96364-0004",
   mensagemWhatsapp:
     "Olá, Karina! Vim pelo seu site e gostaria de saber mais sobre o atendimento.",
 
