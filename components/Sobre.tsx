@@ -41,7 +41,7 @@ export default function Sobre() {
         <Revelar className="relative mx-auto w-full max-w-[26rem] lg:sticky lg:top-28">
           {fotoSobre ? (
             <div className="relative aspect-[4/5] overflow-hidden rounded-t-[999px] shadow-flutuante">
-              <Image src={fotoSobre} alt="Karina Sposito" fill sizes="(min-width: 1024px) 26rem, 90vw" className="object-cover" />
+              <Image src={fotoSobre} alt="Karina Sposito" fill sizes="(min-width: 1024px) 26rem, 90vw" className="object-cover object-[50%_28%]" />
             </div>
           ) : (
             <RetratoProvisorio />
